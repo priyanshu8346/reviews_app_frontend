@@ -1,94 +1,110 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Grid,
-  Box,
-  Table,
-  TableHead,
-  TableBody,
-  TableRow,
-  TableCell,
-  Paper,
+  Card, CardContent, Typography, Button, Grid, Box,
+  Table, TableHead, TableBody, TableRow, TableCell, Paper, CircularProgress
 } from "@mui/material";
 import {
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ResponsiveContainer,
+  BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer
 } from "recharts";
+import { useSnackbar } from "notistack";  // <-- NEW
+import api from "../services/api";
 
 export default function AdminDashboard() {
-  const [chartData, setChartData] = useState([
-    { name: "5 Stars", value: 20 },
-    { name: "4 Stars", value: 15 },
-    { name: "3 Stars", value: 8 },
-    { name: "2 Stars", value: 5 },
-    { name: "1 Star", value: 3 },
-  ]);
-
-  const [satisfactionData, setSatisfactionData] = useState([
-    { name: "Satisfied", value: 30 },
-    { name: "Neutral", value: 10 },
-    { name: "Unsatisfied", value: 5 },
-  ]);
-
-  const [reviews, setReviews] = useState([
-    { id: 1, email: "user1@email.com", review: "Great product!", rating: 5 },
-    { id: 2, email: "user2@email.com", review: "Not bad", rating: 3 },
-    { id: 3, email: "user3@email.com", review: "Could be better", rating: 2 },
-  ]);
-
+  const { enqueueSnackbar } = useSnackbar(); // <-- NEW
+  const [chartData, setChartData] = useState([]);
+  const [satisfactionData, setSatisfactionData] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [suggestions, setSuggestions] = useState(null);
   const [summary, setSummary] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const COLORS = ["#4caf50", "#2196f3", "#ff9800", "#f44336", "#9c27b0"];
 
-  // Refresh charts dynamically
-  const refreshInsights = () => {
-    setChartData([
-      { name: "5 Stars", value: Math.floor(Math.random() * 20) + 5 },
-      { name: "4 Stars", value: Math.floor(Math.random() * 20) + 5 },
-      { name: "3 Stars", value: Math.floor(Math.random() * 10) + 2 },
-      { name: "2 Stars", value: Math.floor(Math.random() * 8) + 1 },
-      { name: "1 Star", value: Math.floor(Math.random() * 5) + 1 },
-    ]);
+  useEffect(() => {
+    const fetchAnalytics = async () => {
+      setLoading(true);
+      try {
+        const { data } = await api.get("/admin/analytics");
+        setChartData(data.ratingDistribution || []);
+        setSatisfactionData(data.satisfaction || []);
+        setReviews(data.reviews || []);
+        enqueueSnackbar("Analytics loaded", { variant: "success" });
+      } catch (err) {
+        enqueueSnackbar("Failed to fetch analytics", { variant: "error" });
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchAnalytics();
+  }, [enqueueSnackbar]);
 
-    setSatisfactionData([
-      { name: "Satisfied", value: Math.floor(Math.random() * 40) + 10 },
-      { name: "Neutral", value: Math.floor(Math.random() * 20) + 5 },
-      { name: "Unsatisfied", value: Math.floor(Math.random() * 10) + 2 },
-    ]);
+  const refreshInsights = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get("/admin/analytics");
+      setChartData(data.ratingDistribution || []);
+      setSatisfactionData(data.satisfaction || []);
+      enqueueSnackbar("Insights refreshed", { variant: "success" });
+    } catch (err) {
+      enqueueSnackbar("Failed to refresh insights", { variant: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const markAsSpam = (id) => {
-    setReviews(reviews.filter((review) => review.id !== id));
+  const markAsSpam = async (id) => {
+    setLoading(true);
+    try {
+      await api.delete(`/admin/reviews/${id}`);
+      setReviews((prev) => prev.filter((review) => review.id !== id));
+      enqueueSnackbar("Review marked as spam", { variant: "warning" });
+    } catch (err) {
+      enqueueSnackbar("Failed to mark review as spam", { variant: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const getSuggestions = () => {
-    setSuggestions("Improve response time and product quality.");
+  const getSuggestions = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get("/admin/suggestions");
+      setSuggestions(data.message || "No suggestions available.");
+      enqueueSnackbar("Improvement suggestions loaded", { variant: "info" });
+    } catch (err) {
+      enqueueSnackbar("Failed to fetch suggestions", { variant: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const loadSummary = () => {
-    setSummary("Overall, users are mostly satisfied but want faster delivery.");
+  const loadSummary = async () => {
+    setLoading(true);
+    try {
+      const { data } = await api.get("/admin/summary");
+      setSummary(data.summary || "No summary available.");
+      enqueueSnackbar("Summary loaded", { variant: "success" });
+    } catch (err) {
+      enqueueSnackbar("Failed to fetch summary", { variant: "error" });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Box p={3}>
       {/* Logout Button */}
       <Box display="flex" justifyContent="flex-end" mb={2}>
-        <Button variant="contained" color="error">
+        <Button variant="contained" color="error" onClick={() => {localStorage.removeItem("token"); window.location.href = "/adminLogin";}}>
           Logout
         </Button>
       </Box>
+
+      {loading && (
+        <Box display="flex" justifyContent="center" my={2}>
+          <CircularProgress />
+        </Box>
+      )}
 
       {/* Charts */}
       <Grid container spacing={3}>
@@ -104,9 +120,12 @@ export default function AdminDashboard() {
                   <YAxis />
                   <Tooltip />
                   <Legend />
-                  <Bar dataKey="value" fill="#2196f3">
+                  <Bar dataKey="value">
                     {chartData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Bar>
                 </BarChart>
@@ -133,7 +152,10 @@ export default function AdminDashboard() {
                     label
                   >
                     {satisfactionData.map((entry, index) => (
-                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={COLORS[index % COLORS.length]}
+                      />
                     ))}
                   </Pie>
                   <Tooltip />

@@ -8,17 +8,17 @@ export default function Navbar() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const { data } = await api.get("/auth/me");
-        if (data.success) setUser(data.user);
-      } catch {
-        setUser(null);
-      }
-    };
-    fetchUser();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     try {
+  //       const { data } = await api.get("/auth/me");
+  //       if (data.success) setUser(data.user);
+  //     } catch {
+  //       setUser(null);
+  //     }
+  //   };
+  //   fetchUser();
+  // }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");

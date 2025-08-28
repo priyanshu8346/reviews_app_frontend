@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Star } from "lucide-react";
+import { Star, LogOut } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import api from "../services/api";
 
 export default function ReviewForm() {
@@ -9,6 +10,7 @@ export default function ReviewForm() {
   const [latestReview, setLatestReview] = useState(null);
   const [loading, setLoading] = useState(false);
   const [editing, setEditing] = useState(false);
+  const navigate = useNavigate();
 
   // Fetch latest review on mount
   useEffect(() => {
@@ -27,6 +29,12 @@ export default function ReviewForm() {
     fetchLatest();
   }, []);
 
+  // Logout function
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/login");
+  };
+
   // Submit or edit review
   const submitReview = async () => {
     setLoading(true);
@@ -42,7 +50,7 @@ export default function ReviewForm() {
           setEditing(false);
         }
       } else {
-        const { data } = await api.post("/reviews", { rating, text });
+        const { data } = await api.post("/reviews/createReview", { rating, text });
         if (data.success) {
           alert("Review submitted!");
           setLatestReview(data.review);
@@ -78,7 +86,17 @@ export default function ReviewForm() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 px-4">
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 border border-slate-200">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 border border-slate-200 relative">
+        
+        {/* Logout button top-right */}
+        <button
+          onClick={handleLogout}
+          className="absolute top-4 right-4 flex items-center gap-1 px-3 py-1.5 rounded-lg bg-red-500 hover:bg-red-600 text-white text-sm shadow transition"
+        >
+          <LogOut size={16} />
+          Logout
+        </button>
+
         <h2 className="text-3xl font-bold text-center text-indigo-800">
           {editing ? "Edit Your Review" : "Submit a Review"}
         </h2>
