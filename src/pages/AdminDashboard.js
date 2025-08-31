@@ -24,10 +24,18 @@ export default function AdminDashboard() {
     const fetchAnalytics = async () => {
       setLoading(true);
       try {
-        const { data } = await api.get("/admin/analytics");
-        setChartData(data.ratingDistribution || []);
+        const { data } = await api.get("/admin/reviews");
+        if (data.success) {
+        const dist = data.ratingDistribution || {};
+        const transformed = [1,2,3,4,5].map(rating => ({
+          name: `${rating} Star`,
+          value: dist[rating] || 0
+        }));
+        setChartData(transformed);
+      }
         setSatisfactionData(data.satisfaction || []);
         setReviews(data.reviews || []);
+        console.log(data)
         enqueueSnackbar("Analytics loaded", { variant: "success" });
       } catch (err) {
         enqueueSnackbar("Failed to fetch analytics", { variant: "error" });
@@ -41,8 +49,15 @@ export default function AdminDashboard() {
   const refreshInsights = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get("/admin/analytics");
-      setChartData(data.ratingDistribution || []);
+      const { data } = await api.get("/admin/reviews");
+      if (data.success) {
+        const dist = data.ratingDistribution || {};
+        const transformed = [1,2,3,4,5].map(rating => ({
+          name: `${rating} Star`,
+          value: dist[rating] || 0
+        }));
+        setChartData(transformed);
+      }
       setSatisfactionData(data.satisfaction || []);
       enqueueSnackbar("Insights refreshed", { variant: "success" });
     } catch (err) {
@@ -69,6 +84,7 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const { data } = await api.get("/admin/suggestions");
+      console.log(data)
       setSuggestions(data.message || "No suggestions available.");
       enqueueSnackbar("Improvement suggestions loaded", { variant: "info" });
     } catch (err) {
@@ -81,7 +97,9 @@ export default function AdminDashboard() {
   const loadSummary = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get("/admin/summary");
+      const response = await api.get("/admin/summary");
+      const data = response.data
+      console.log(response)
       setSummary(data.summary || "No summary available.");
       enqueueSnackbar("Summary loaded", { variant: "success" });
     } catch (err) {
@@ -208,7 +226,7 @@ export default function AdminDashboard() {
           <Table className="min-w-full">
             <TableHead>
               <TableRow>
-                <TableCell>Email</TableCell>
+                <TableCell>UserId</TableCell>
                 <TableCell>Review</TableCell>
                 <TableCell>Rating</TableCell>
                 <TableCell>Action</TableCell>
@@ -216,9 +234,9 @@ export default function AdminDashboard() {
             </TableHead>
             <TableBody>
               {reviews.map((review) => (
-                <TableRow key={review.id}>
-                  <TableCell>{review.email}</TableCell>
-                  <TableCell>{review.review}</TableCell>
+                <TableRow key={review._id}>
+                  <TableCell>{review.user}</TableCell>
+                  <TableCell>{review.text}</TableCell>
                   <TableCell>{review.rating}</TableCell>
                   <TableCell>
                     <Button

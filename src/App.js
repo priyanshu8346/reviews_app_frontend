@@ -21,7 +21,10 @@ function App() {
         <Route path='/' element={<Home />} />
         <Route path='/login' element={<Login />} />
         <Route path='/adminLogin' element={<AdminLogin />} />
-        <Route path="/review" element={  <ReviewForm /> }/>
+        <Route path="/review" element={ 
+        <ProtectedRoute>
+            <ReviewForm /> 
+        </ProtectedRoute>}/>
         <Route path="/admin" element={<AdminDashboard /> 
         } />
         <Route path="*" element={<Error />} />
