@@ -38,6 +38,7 @@ export default function AdminLogin() {
       const { data } = await api.post("/admin/verify-otp", { email, otp });
       if (data.success && data.token) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("role", "admin");
         navigate("/admin");
       } else {
         alert(data.error || "Invalid OTP");

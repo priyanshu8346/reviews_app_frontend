@@ -70,7 +70,8 @@ export default function AdminDashboard() {
   const markAsSpam = async (id) => {
     setLoading(true);
     try {
-      await api.delete(`/admin/reviews/${id}`);
+      const response = await api.delete(`/reviews/${id}`);
+      console.log(response);
       setReviews((prev) => prev.filter((review) => review.id !== id));
       enqueueSnackbar("Review marked as spam", { variant: "warning" });
     } catch (err) {
@@ -83,9 +84,10 @@ export default function AdminDashboard() {
   const getSuggestions = async () => {
     setLoading(true);
     try {
-      const { data } = await api.get("/admin/suggestions");
-      console.log(data)
-      setSuggestions(data.message || "No suggestions available.");
+      const response = await api.get("/admin/suggestions");
+      console.log(response)
+      const suggestions = response.data.insights.suggestions;;
+      setSuggestions(suggestions || "No suggestions available.");
       enqueueSnackbar("Improvement suggestions loaded", { variant: "info" });
     } catch (err) {
       enqueueSnackbar("Failed to fetch suggestions", { variant: "error" });
@@ -97,10 +99,11 @@ export default function AdminDashboard() {
   const loadSummary = async () => {
     setLoading(true);
     try {
+      console.log("Fetching summary...")
       const response = await api.get("/admin/summary");
-      const data = response.data
+      const summary = response.data.insights.summary;
       console.log(response)
-      setSummary(data.summary || "No summary available.");
+      setSummary(summary || "No summary available2.");
       enqueueSnackbar("Summary loaded", { variant: "success" });
     } catch (err) {
       enqueueSnackbar("Failed to fetch summary", { variant: "error" });
@@ -242,7 +245,7 @@ export default function AdminDashboard() {
                     <Button
                       variant="outlined"
                       color="error"
-                      onClick={() => markAsSpam(review.id)}
+                      onClick={() => markAsSpam(review._id)}
                     >
                       Mark as Spam
                     </Button>

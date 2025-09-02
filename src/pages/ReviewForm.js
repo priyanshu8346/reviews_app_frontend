@@ -32,6 +32,7 @@ export default function ReviewForm() {
   // Logout function
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("role");
     navigate("/login");
   };
 

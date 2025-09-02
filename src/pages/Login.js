@@ -31,6 +31,7 @@ export default function Login() {
       const { data } = await api.post("/auth/verify-otp", { email, otp });
       if (data.success) {
         localStorage.setItem("token", data.token);
+        localStorage.setItem("role", "user");
         navigate("/review");
       }
     } catch (err) {
