@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ReviewForm from './pages/ReviewForm';
 import AdminDashboard from './pages/AdminDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -11,7 +11,7 @@ import AdminLogin from './pages/AdminLogin';
 function App() {
 
   return (
-    <Router basename='/'>
+    <Router >
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
