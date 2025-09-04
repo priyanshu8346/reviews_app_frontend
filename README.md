@@ -1,70 +1,133 @@
-# Getting Started with Create React App
+# ReviewAI
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+An AI-powered platform for collecting, analyzing, and understanding customer feedback. Built with a React frontend, Node.js/Express backend, and Python microservice for AI review analysis using OpenAI.
 
-## Available Scripts
+---
 
-In the project directory, you can run:
+## Features
+- **User & Admin Authentication** (OTP via email)
+- **Review Submission & Editing**
+- **AI-Powered Sentiment, Spam, and Insights**
+- **Admin Dashboard with Analytics & Suggestions**
+- **Secure JWT-based Auth**
+- **Modern UI with Tailwind, MUI, and Radix**
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech Stack
+- **Frontend:** React, Tailwind CSS, MUI, Radix UI, Axios
+- **Backend:** Node.js, Express, MongoDB, Mongoose, JWT, Nodemailer
+- **AI Service:** Python (Flask), OpenAI API
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+---
 
-### `npm test`
+## Project Structure
+```
+Sentiment_App/
+├── ai_review_backend/      # Node.js/Express backend
+│   ├── controllers/       # Auth, Review, Admin logic
+│   ├── models/            # User, Review schemas
+│   ├── routes/            # API routes
+│   ├── services/ai_services/ # Python AI microservice
+│   ├── config/            # DB connection
+│   ├── middleware/        # Auth, Admin checks
+│   ├── .env               # Environment variables
+│   └── server.js          # Entry point
+├── review-ai-frontend/    # React frontend
+│   ├── src/               # Components, pages, services
+│   ├── public/            # Static files
+│   ├── package.json       # Frontend dependencies
+│   └── README.md          # This file
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+---
 
-### `npm run build`
+## Setup Instructions
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. Backend (Node.js/Express)
+- Install dependencies:
+  ```sh
+  cd ai_review_backend
+  npm install
+  ```
+- Configure `.env` with MongoDB, JWT, email SMTP, etc.
+- Start server:
+  ```sh
+  npm run dev
+  # or
+  npm start
+  ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+### 2. AI Microservice (Python/Flask)
+- Install Python dependencies:
+  ```sh
+  cd ai_review_backend/services/ai_services
+  pip install -r requirement.txt
+  ```
+- Add your OpenAI API key to `.env`:
+  ```
+  OPENAI_API_KEY=sk-...
+  ```
+- Start Flask app:
+  ```sh
+  python app.py
+  # Runs on port 8000
+  ```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 3. Frontend (React)
+- Install dependencies:
+  ```sh
+  cd review-ai-frontend
+  npm install
+  ```
+- Start frontend:
+  ```sh
+  npm start
+  # Runs on port 3000
+  ```
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Usage
+- **User:** Login via OTP, submit/edit/delete reviews, see latest review.
+- **Admin:** Login via OTP, view analytics, mark spam, get AI-powered suggestions and summaries.
+- **AI:** All reviews are analyzed by the Python microservice using OpenAI GPT-4o for sentiment, spam, and insights.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## API Endpoints
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Backend (Express)
+- `POST /auth/send-otp` — Send OTP to user email
+- `POST /auth/verify-otp` — Verify OTP and get JWT
+- `POST /reviews/createReview` — Create review (auth required)
+- `GET /reviews/my-latest` — Get latest review (auth required)
+- `PUT /reviews/:reviewId` — Update review (auth required)
+- `DELETE /reviews/:reviewId` — Delete review (auth required)
+- `GET /admin/reviews` — Admin analytics (auth+admin required)
+- `GET /admin/summary` — AI summary (auth+admin required)
+- `GET /admin/suggestions` — AI improvement suggestions (auth+admin required)
+- `POST /admin/send-otp` — Send admin OTP
+- `POST /admin/verify-otp` — Verify admin OTP
 
-## Learn More
+### AI Microservice (Flask)
+- `POST /analyze` — Analyze review text, return sentiment, spam, score, problems, goodPoints
+- `POST /summary` — Summarize problems/goodPoints
+- `POST /suggestions` — Suggest improvements
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Environment Variables
+- **Backend:** `.env` for MongoDB URI, JWT secret, email SMTP config
+- **AI Service:** `.env` for `OPENAI_API_KEY`
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## License
+MIT
 
-### Analyzing the Bundle Size
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Author
+Priyanshu Agrawal
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
