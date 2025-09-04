@@ -131,3 +131,43 @@ MIT
 ## Author
 Priyanshu Agrawal
 
+---
+
+## 🚀 Future Scope & Enhancements
+- **Multilingual Review Analysis:** Expand AI service to support reviews in multiple languages.
+- **Customizable AI Models:** Allow businesses to fine-tune sentiment/spam detection for their domain.
+- **Role-Based Access Control:** Add more granular permissions for moderators, super-admins, etc.
+- **Review Moderation Queue:** Enable admins to approve/reject reviews before publishing.
+- **Notifications:** Email or in-app notifications for review status, admin actions, etc.
+- **Integrations:** Connect with platforms like Shopify, WordPress, or Slack for automated review collection.
+- **Mobile App:** Build a React Native app for on-the-go review management.
+- **Advanced Analytics:** Add charts for trends, word clouds, and predictive insights.
+- **Export/Import:** Allow exporting reviews and analytics to CSV, PDF, etc.
+- **Accessibility Improvements:** Ensure WCAG compliance for all users.
+
+---
+
+## 🤝 Contributing
+Contributions, bug reports, and feature requests are welcome!
+- Fork the repo and create a pull request
+- Open issues for bugs or suggestions
+- Follow code style and add tests where possible
+
+---
+
+## 🌟 Project Highlights
+- **End-to-End AI Review Pipeline:** From user input to actionable admin insights
+- **Modular Microservice Architecture:** Easy to extend or swap AI models
+- **Modern UI/UX:** Responsive, accessible, and visually appealing
+- **Security First:** JWT, role checks, and environment-based secrets
+- **Open Source:** MIT license, easy to deploy and customize
+
+---
+
+## 📫 Contact
+For questions, collaborations, or feedback:
+- Email: priyanshuagrawal419@gmail.com
+- GitHub: [priyanshu8346](https://github.com/priyanshu8346)
+
+---
+
