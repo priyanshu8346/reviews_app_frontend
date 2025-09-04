@@ -6,11 +6,11 @@ import {
 import {
   BarChart, Bar, PieChart, Pie, Cell, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer
 } from "recharts";
-import { useSnackbar } from "notistack";  // <-- NEW
+import { useSnackbar } from "notistack";  
 import api from "../services/api";
 
 export default function AdminDashboard() {
-  const { enqueueSnackbar } = useSnackbar(); // <-- NEW
+  const { enqueueSnackbar } = useSnackbar(); 
   const [chartData, setChartData] = useState([]);
   const [satisfactionData, setSatisfactionData] = useState([]);
   const [reviews, setReviews] = useState([]);
@@ -35,7 +35,6 @@ export default function AdminDashboard() {
       }
         setSatisfactionData(data.satisfaction || []);
         setReviews(data.reviews || []);
-        console.log(data)
         enqueueSnackbar("Analytics loaded", { variant: "success" });
       } catch (err) {
         enqueueSnackbar("Failed to fetch analytics", { variant: "error" });
@@ -71,7 +70,6 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const response = await api.delete(`/reviews/${id}`);
-      console.log(response);
       setReviews((prev) => prev.filter((review) => review.id !== id));
       enqueueSnackbar("Review marked as spam", { variant: "warning" });
     } catch (err) {
@@ -85,7 +83,6 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const response = await api.get("/admin/suggestions");
-      console.log(response)
       const suggestions = response.data.insights.suggestions;;
       setSuggestions(suggestions || "No suggestions available.");
       enqueueSnackbar("Improvement suggestions loaded", { variant: "info" });
@@ -99,10 +96,8 @@ export default function AdminDashboard() {
   const loadSummary = async () => {
     setLoading(true);
     try {
-      console.log("Fetching summary...")
       const response = await api.get("/admin/summary");
       const summary = response.data.insights.summary;
-      console.log(response)
       setSummary(summary || "No summary available2.");
       enqueueSnackbar("Summary loaded", { variant: "success" });
     } catch (err) {

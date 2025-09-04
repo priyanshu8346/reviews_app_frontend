@@ -1,29 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Shield } from "lucide-react";
-import api from "../services/api";
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
-  // useEffect(() => {
-  //   const fetchUser = async () => {
-  //     try {
-  //       const { data } = await api.get("/auth/me");
-  //       if (data.success) setUser(data.user);
-  //     } catch {
-  //       setUser(null);
-  //     }
-  //   };
-  //   fetchUser();
-  // }, []);
+  const token = localStorage.getItem("token");
+  const role = localStorage.getItem("role");
 
   const handleLogout = () => {
     localStorage.removeItem("token");
-    setUser(null);
-    navigate("/login");
+    localStorage.removeItem("role");
+    navigate("/");
   };
 
   return (
@@ -48,7 +37,7 @@ export default function Navbar() {
             >
               Give Review
             </Link>
-            {user?.role === "admin" && (
+            {role === "admin" && (
               <Link 
                 to="/admin" 
                 className="text-white hover:text-indigo-300 font-medium transition"
@@ -58,20 +47,15 @@ export default function Navbar() {
             )}
           </div>
 
-          {/* Right: User / Auth Buttons */}
+          {/* Right: Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            {user ? (
-              <>
-                <span className="text-white text-sm">
-                  {user.email}
-                </span>
-                <button 
-                  onClick={handleLogout}
-                  className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg shadow transition"
-                >
-                  Logout
-                </button>
-              </>
+            {token ? (
+              <button 
+                onClick={handleLogout}
+                className="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm rounded-lg shadow transition"
+              >
+                Logout
+              </button>
             ) : (
               <Link 
                 to="/login" 
@@ -104,7 +88,7 @@ export default function Navbar() {
           >
             Give Review
           </Link>
-          {user?.role === "admin" && (
+          {role === "admin" && (
             <Link 
               to="/admin" 
               onClick={() => setIsOpen(false)}
@@ -114,7 +98,7 @@ export default function Navbar() {
             </Link>
           )}
           <div className="mt-2 border-t border-indigo-700 pt-2">
-            {user ? (
+            {token ? (
               <button 
                 onClick={() => { handleLogout(); setIsOpen(false); }}
                 className="w-full text-left py-2 px-3 bg-red-600 hover:bg-red-700 text-white text-sm rounded-lg shadow transition"

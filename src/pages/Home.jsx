@@ -19,7 +19,7 @@ export default function Home() {
           Whether you're a user sharing experiences or an admin managing insights, we make reviews smarter.
         </p>
 
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-4 mb-8 sm:mb-1">
           <Link 
             to="/login" 
             state={{ role: "user" }}

@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
-import { useNotification } from "../context-api/NotificationContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -97,12 +96,6 @@ export default function Login() {
               className="w-full mt-6 bg-green-600 hover:bg-green-700 text-white font-medium py-2 rounded-lg shadow transition disabled:opacity-50"
             >
               {loading ? "Verifying..." : "Verify OTP"}
-            </button>
-            <button
-              onClick={() => setStep(1)}
-              className="w-full mt-2 text-indigo-600 hover:text-indigo-800 text-sm font-medium"
-            >
-              Change Email
             </button>
           </>
         )}

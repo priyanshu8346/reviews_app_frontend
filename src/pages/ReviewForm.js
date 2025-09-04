@@ -23,7 +23,7 @@ export default function ReviewForm() {
           setText(data.review.text);
         }
       } catch {
-        console.log("No previous review found");
+        alert("No previous review found");
       }
     };
     fetchLatest();
@@ -41,7 +41,7 @@ export default function ReviewForm() {
     setLoading(true);
     try {
       if (editing && latestReview) {
-        const { data } = await api.patch(`/reviews/${latestReview._id}`, {
+        const { data } = await api.put(`/reviews/${latestReview._id}`, {
           rating,
           text,
         });
