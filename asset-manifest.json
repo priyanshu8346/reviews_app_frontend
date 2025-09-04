@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/review-ai-frontend/static/css/main.8383d27e.css",
+    "main.js": "/review-ai-frontend/static/js/main.d03f557f.js",
+    "static/js/453.068820d2.chunk.js": "/review-ai-frontend/static/js/453.068820d2.chunk.js",
+    "index.html": "/review-ai-frontend/index.html",
+    "main.8383d27e.css.map": "/review-ai-frontend/static/css/main.8383d27e.css.map",
+    "main.d03f557f.js.map": "/review-ai-frontend/static/js/main.d03f557f.js.map",
+    "453.068820d2.chunk.js.map": "/review-ai-frontend/static/js/453.068820d2.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.8383d27e.css",
+    "static/js/main.d03f557f.js"
+  ]
+}
