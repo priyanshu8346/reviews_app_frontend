@@ -11,7 +11,7 @@ import AdminLogin from './pages/AdminLogin';
 function App() {
 
   return (
-    <Router>
+    <Router basename='/'>
       <Navbar />
       <Routes>
         <Route path='/' element={<Home />} />
