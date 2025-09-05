@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/review-ai-frontend/static/css/main.8383d27e.css",
-    "main.js": "/review-ai-frontend/static/js/main.a96f84c7.js",
-    "static/js/453.068820d2.chunk.js": "/review-ai-frontend/static/js/453.068820d2.chunk.js",
-    "index.html": "/review-ai-frontend/index.html",
-    "main.8383d27e.css.map": "/review-ai-frontend/static/css/main.8383d27e.css.map",
-    "main.a96f84c7.js.map": "/review-ai-frontend/static/js/main.a96f84c7.js.map",
-    "453.068820d2.chunk.js.map": "/review-ai-frontend/static/js/453.068820d2.chunk.js.map"
+    "main.css": "/reviews_app_frontend/static/css/main.8383d27e.css",
+    "main.js": "/reviews_app_frontend/static/js/main.b13309d9.js",
+    "static/js/453.068820d2.chunk.js": "/reviews_app_frontend/static/js/453.068820d2.chunk.js",
+    "index.html": "/reviews_app_frontend/index.html",
+    "main.8383d27e.css.map": "/reviews_app_frontend/static/css/main.8383d27e.css.map",
+    "main.b13309d9.js.map": "/reviews_app_frontend/static/js/main.b13309d9.js.map",
+    "453.068820d2.chunk.js.map": "/reviews_app_frontend/static/js/453.068820d2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8383d27e.css",
-    "static/js/main.a96f84c7.js"
+    "static/js/main.b13309d9.js"
   ]
 }
