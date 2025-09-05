@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import {
   Card, CardContent, Typography, Button, Grid, Box,
   Table, TableHead, TableBody, TableRow, TableCell, Paper, CircularProgress
@@ -109,13 +109,6 @@ export default function AdminDashboard() {
 
   return (
     <Box p={3}>
-      {/* Logout Button */}
-      <Box display="flex" justifyContent="flex-end" mb={2}>
-        <Button variant="contained" color="error" onClick={() => {localStorage.removeItem("token"); window.location.href = "/adminLogin";}}>
-          Logout
-        </Button>
-      </Box>
-
       {loading && (
         <Box display="flex" justifyContent="center" my={2}>
           <CircularProgress />
