@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, Shield } from "lucide-react";
 
@@ -31,12 +31,13 @@ export default function Navbar() {
 
           {/* Desktop Links */}
           <div className="hidden md:flex space-x-8 items-center">
+            {role === "user" && (
             <Link 
               to="/review" 
               className="text-white hover:text-indigo-300 font-medium transition"
             >
               Give Review
-            </Link>
+            </Link>)}
             {role === "admin" && (
               <Link 
                 to="/admin" 
@@ -81,13 +82,14 @@ export default function Navbar() {
       {/* Mobile Menu Dropdown */}
       {isOpen && (
         <div className="md:hidden bg-indigo-900 px-4 pb-4">
+          {role === "user" && (
           <Link 
             to="/review" 
             onClick={() => setIsOpen(false)}
             className="block py-2 text-white hover:text-indigo-300 font-medium"
           >
             Give Review
-          </Link>
+          </Link>)}
           {role === "admin" && (
             <Link 
               to="/admin" 

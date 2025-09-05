@@ -1,7 +1,7 @@
 {
   "name": "review-ai-frontend",
   "version": "0.1.0",
-  "homepage": "https://priyanshu8346.github.io/review-ai-frontend",
+  "homepage": "https://priyanshu8346.github.io/reviews_app_frontend",
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.14.0",

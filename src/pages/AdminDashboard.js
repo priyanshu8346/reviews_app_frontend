@@ -69,8 +69,8 @@ export default function AdminDashboard() {
   const markAsSpam = async (id) => {
     setLoading(true);
     try {
-      const response = await api.delete(`/reviews/${id}`);
-      setReviews((prev) => prev.filter((review) => review.id !== id));
+      await api.delete(`/reviews/${id}`);
+      setReviews((prev) => prev.filter((review) => review._id !== id));
       enqueueSnackbar("Review marked as spam", { variant: "warning" });
     } catch (err) {
       enqueueSnackbar("Failed to mark review as spam", { variant: "error" });
