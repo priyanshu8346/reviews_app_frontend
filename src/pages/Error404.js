@@ -1,12 +1,7 @@
-
-// 404 Not Found page. Handles navigation for unknown routes.
 import { useNavigate } from "react-router-dom";
 
 export default function NotFound() {
   const navigate = useNavigate();
-
-  // Log when user lands on 404 page
-  console.warn('[Error404] User landed on 404 page');
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 px-4">
@@ -21,13 +16,13 @@ export default function NotFound() {
 
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
           <button
-            onClick={() => { console.log('[Error404] Go Home clicked'); navigate("/"); }}
+            onClick={() => navigate("/")}
             className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg shadow transition"
           >
             Go Home
           </button>
           <button
-            onClick={() => { console.log('[Error404] Go Back clicked'); navigate(-1); }}
+            onClick={() => navigate(-1)}
             className="w-full sm:w-auto bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-6 rounded-lg shadow transition"
           >
             Go Back
