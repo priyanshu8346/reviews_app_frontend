@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Star } from "lucide-react";
 import api from "../services/api";
 
+
+// Review form for submitting, editing, and deleting user reviews
 export default function ReviewForm() {
   const [rating, setRating] = useState(5);
   const [hoverRating, setHoverRating] = useState(0);
@@ -14,14 +16,17 @@ export default function ReviewForm() {
   useEffect(() => {
     const fetchLatest = async () => {
       try {
+        console.log('[ReviewForm] Fetching latest review...');
         const { data } = await api.get("/reviews/my-latest");
         if (data.success && data.review) {
           setLatestReview(data.review);
           setRating(data.review.rating);
           setText(data.review.text);
+          console.log('[ReviewForm] Latest review loaded:', data.review);
         }
-      } catch {
+      } catch (err) {
         alert("No previous review found");
+        console.warn('[ReviewForm] No previous review found');
       }
     };
     fetchLatest();
@@ -32,6 +37,7 @@ export default function ReviewForm() {
     setLoading(true);
     try {
       if (editing && latestReview) {
+        console.log('[ReviewForm] Updating review:', latestReview._id);
         const { data } = await api.put(`/reviews/${latestReview._id}`, {
           rating,
           text,
@@ -40,16 +46,20 @@ export default function ReviewForm() {
           alert("Review updated!");
           setLatestReview(data.review);
           setEditing(false);
+          console.log('[ReviewForm] Review updated:', data.review);
         }
       } else {
+        console.log('[ReviewForm] Submitting new review');
         const { data } = await api.post("/reviews/createReview", { rating, text });
         if (data.success) {
           alert("Review submitted!");
           setLatestReview(data.review);
+          console.log('[ReviewForm] Review submitted:', data.review);
         }
       }
     } catch (err) {
       alert(err.response?.data?.error || "Error submitting review");
+      console.error('[ReviewForm] Error submitting/updating review:', err);
     } finally {
       setLoading(false);
     }
@@ -61,6 +71,7 @@ export default function ReviewForm() {
     if (!window.confirm("Are you sure you want to delete your review?")) return;
     setLoading(true);
     try {
+      console.log('[ReviewForm] Deleting review:', latestReview._id);
       const { data } = await api.delete(`/reviews/${latestReview._id}`);
       if (data.success) {
         alert("Review deleted!");
@@ -68,14 +79,17 @@ export default function ReviewForm() {
         setRating(5);
         setText("");
         setEditing(false);
+        console.log('[ReviewForm] Review deleted');
       }
     } catch (err) {
       alert(err.response?.data?.error || "Error deleting review");
+      console.error('[ReviewForm] Error deleting review:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Render review form UI
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-8 border border-slate-200 relative">
@@ -134,14 +148,14 @@ export default function ReviewForm() {
           {editing ? "Update Review" : "Submit Review"}
         </button>
 
-        {/* Show Latest Review */}
+        {/* Show Latest Review if exists and not editing */}
         {latestReview && !editing && (
           <div className="mt-8 border-t pt-6">
             <h3 className="text-lg font-semibold text-gray-800 mb-3 text-center">
               Your Latest Review
             </h3>
 
-            {/* Stars */}
+            {/* Stars for latest review */}
             <div className="flex gap-1 justify-center mb-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <Star
@@ -160,7 +174,7 @@ export default function ReviewForm() {
 
             <div className="mt-4 flex gap-3 justify-center">
               <button
-                onClick={() => setEditing(true)}
+                onClick={() => { setEditing(true); console.log('[ReviewForm] Edit mode enabled'); }}
                 className="px-4 py-2 rounded-lg bg-indigo-500 hover:bg-indigo-600 text-white transition"
               >
                 Edit

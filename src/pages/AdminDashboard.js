@@ -9,6 +9,8 @@ import {
 import { useSnackbar } from "notistack";  
 import api from "../services/api";
 
+
+// Admin dashboard for analytics, review management, and insights
 export default function AdminDashboard() {
   const { enqueueSnackbar } = useSnackbar(); 
   const [chartData, setChartData] = useState([]);
@@ -18,26 +20,31 @@ export default function AdminDashboard() {
   const [summary, setSummary] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  // Chart colors
   const COLORS = ["#4caf50", "#2196f3", "#ff9800", "#f44336", "#9c27b0"];
 
+  // Fetch analytics on mount
   useEffect(() => {
     const fetchAnalytics = async () => {
       setLoading(true);
       try {
+        console.log('[AdminDashboard] Fetching analytics...');
         const { data } = await api.get("/admin/reviews");
         if (data.success) {
-        const dist = data.ratingDistribution || {};
-        const transformed = [1,2,3,4,5].map(rating => ({
-          name: `${rating} Star`,
-          value: dist[rating] || 0
-        }));
-        setChartData(transformed);
-      }
+          const dist = data.ratingDistribution || {};
+          const transformed = [1,2,3,4,5].map(rating => ({
+            name: `${rating} Star`,
+            value: dist[rating] || 0
+          }));
+          setChartData(transformed);
+          console.log('[AdminDashboard] Chart data loaded:', transformed);
+        }
         setSatisfactionData(data.satisfaction || []);
         setReviews(data.reviews || []);
         enqueueSnackbar("Analytics loaded", { variant: "success" });
       } catch (err) {
         enqueueSnackbar("Failed to fetch analytics", { variant: "error" });
+        console.error('[AdminDashboard] Error fetching analytics:', err);
       } finally {
         setLoading(false);
       }
@@ -45,9 +52,11 @@ export default function AdminDashboard() {
     fetchAnalytics();
   }, [enqueueSnackbar]);
 
+  // Refresh analytics/insights
   const refreshInsights = async () => {
     setLoading(true);
     try {
+      console.log('[AdminDashboard] Refreshing insights...');
       const { data } = await api.get("/admin/reviews");
       if (data.success) {
         const dist = data.ratingDistribution || {};
@@ -56,66 +65,79 @@ export default function AdminDashboard() {
           value: dist[rating] || 0
         }));
         setChartData(transformed);
+        console.log('[AdminDashboard] Insights refreshed:', transformed);
       }
       setSatisfactionData(data.satisfaction || []);
       enqueueSnackbar("Insights refreshed", { variant: "success" });
     } catch (err) {
       enqueueSnackbar("Failed to refresh insights", { variant: "error" });
+      console.error('[AdminDashboard] Error refreshing insights:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Mark a review as spam (delete)
   const markAsSpam = async (id) => {
     setLoading(true);
     try {
+      console.log('[AdminDashboard] Marking review as spam:', id);
       await api.delete(`/reviews/${id}`);
       setReviews((prev) => prev.filter((review) => review._id !== id));
       enqueueSnackbar("Review marked as spam", { variant: "warning" });
     } catch (err) {
       enqueueSnackbar("Failed to mark review as spam", { variant: "error" });
+      console.error('[AdminDashboard] Error marking as spam:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Get improvement suggestions from backend
   const getSuggestions = async () => {
     setLoading(true);
     try {
+      console.log('[AdminDashboard] Fetching improvement suggestions...');
       const response = await api.get("/admin/suggestions");
-      const suggestions = response.data.insights.suggestions;;
+      const suggestions = response.data.insights.suggestions;
       setSuggestions(suggestions || "No suggestions available.");
       enqueueSnackbar("Improvement suggestions loaded", { variant: "info" });
     } catch (err) {
       enqueueSnackbar("Failed to fetch suggestions", { variant: "error" });
+      console.error('[AdminDashboard] Error fetching suggestions:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Load summary from backend
   const loadSummary = async () => {
     setLoading(true);
     try {
+      console.log('[AdminDashboard] Loading summary...');
       const response = await api.get("/admin/summary");
       const summary = response.data.insights.summary;
-      setSummary(summary || "No summary available2.");
+      setSummary(summary || "No summary available.");
       enqueueSnackbar("Summary loaded", { variant: "success" });
     } catch (err) {
       enqueueSnackbar("Failed to fetch summary", { variant: "error" });
+      console.error('[AdminDashboard] Error loading summary:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  // Render admin dashboard UI
   return (
     <Box p={3}>
+      {/* Show loading spinner if loading */}
       {loading && (
         <Box display="flex" justifyContent="center" my={2}>
           <CircularProgress />
         </Box>
       )}
 
-      {/* Charts */}
+      {/* Charts for analytics */}
       <Grid container spacing={3}>
         <Grid item xs={12} md="auto" className="w-[20rem]">
           <Card sx={{ boxShadow: 3, borderRadius: 3 }}>
@@ -176,7 +198,7 @@ export default function AdminDashboard() {
         </Grid>
       </Grid>
 
-      {/* Admin Action Buttons */}
+      {/* Admin action buttons */}
       <Box mt={4} display="flex" gap={2}>
         <Button variant="contained" color="primary" onClick={refreshInsights}>
           Refresh Insights
@@ -189,7 +211,7 @@ export default function AdminDashboard() {
         </Button>
       </Box>
 
-      {/* Suggestions & Summary */}
+      {/* Suggestions & Summary display */}
       {suggestions && (
         <Box mt={2}>
           <Card sx={{ boxShadow: 2, borderRadius: 3, p: 2 }}>
@@ -208,7 +230,7 @@ export default function AdminDashboard() {
         </Box>
       )}
 
-      {/* Reviews Table */}
+      {/* Reviews table */}
       <Box mt={4}>
         <Typography variant="h6" gutterBottom>
           User Reviews
