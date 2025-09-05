@@ -20,8 +20,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
         <Route path="/review" element={<ReviewForm />} />
       </Route>
-        <Route path="/admin" element={<AdminDashboard /> 
-        } />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </Router>
