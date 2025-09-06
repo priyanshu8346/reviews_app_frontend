@@ -93,22 +93,32 @@ export default function AdminDashboard() {
     }
   };
 
-  // Get improvement suggestions from backend
   const getSuggestions = async () => {
-    setLoading(true);
-    try {
-      console.log('[AdminDashboard] Fetching improvement suggestions...');
-      const response = await api.get("/admin/suggestions");
-      const suggestions = response.data.insights.suggestions;
-      setSuggestions(suggestions || "No suggestions available.");
-      enqueueSnackbar("Improvement suggestions loaded", { variant: "info" });
-    } catch (err) {
-      enqueueSnackbar("Failed to fetch suggestions", { variant: "error" });
-      console.error('[AdminDashboard] Error fetching suggestions:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
+  setLoading(true);
+  try {
+    console.log('[AdminDashboard] Fetching improvement suggestions...');
+    const response = await api.get("/admin/suggestions");
+    console.log('[AdminDashboard] Suggestions response:', response);
+
+    // If backend returns { suggestions: [...] }
+    const suggestions = response.data.insights.suggestions;
+
+    setSuggestions(Array.isArray(suggestions) ? suggestions : ["No suggestions available."]);
+
+    enqueueSnackbar(
+      Array.isArray(suggestions) && suggestions.length > 0
+        ? "Improvement suggestions loaded"
+        : "No suggestions available.",
+      { variant: "info" }
+    );
+  } catch (err) {
+    enqueueSnackbar("Failed to fetch suggestions", { variant: "error" });
+    console.error('[AdminDashboard] Error fetching suggestions:', err);
+  } finally {
+    setLoading(false);
+  }
+};
+
 
   // Load summary from backend
   const loadSummary = async () => {
@@ -213,13 +223,25 @@ export default function AdminDashboard() {
 
       {/* Suggestions & Summary display */}
       {suggestions && (
-        <Box mt={2}>
-          <Card sx={{ boxShadow: 2, borderRadius: 3, p: 2 }}>
-            <Typography variant="h6">Suggestions:</Typography>
-            <Typography>{suggestions}</Typography>
+  <Box mt={2}>
+    <Card sx={{ boxShadow: 2, borderRadius: 3, p: 2 }}>
+      <Typography variant="h6">Suggestions:</Typography>
+      
+      {Array.isArray(suggestions) ? (
+        <ul style={{ paddingLeft: "20px", margin: 0 }}>
+          {suggestions.map((s, idx) => (
+            <li key={idx}>
+              <Typography variant="body1">{s}</Typography>
+            </li>
+                ))}
+              </ul>
+            ) : (
+              <Typography variant="body1">{suggestions}</Typography>
+            )}
           </Card>
         </Box>
       )}
+
 
       {summary && (
         <Box mt={2}>
