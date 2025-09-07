@@ -44,8 +44,23 @@ Sentiment_App/
 
 ---
 
+
 ## Live Demo
-[https://priyanshu8346.github.io/reviews_app_frontend/](https://priyanshu8346.github.io/reviews_app_frontend/)
+
+- **Web App:** [https://priyanshu8346.github.io/reviews_app_frontend/](https://priyanshu8346.github.io/reviews_app_frontend/)
+
+- **Video Demo:**
+  [![Watch the video demo](https://img.youtube.com/vi/lICoiH6D_RA/hqdefault.jpg)](https://youtu.be/lICoiH6D_RA)
+
+- **Screenshots:**
+  <p align="center">
+    <img src="public/images/Screenshot 2025-09-07 at 3.59.25 PM.png" alt="Screenshot 1" width="400"/>
+    <img src="public/images/Screenshot 2025-09-07 at 3.59.49 PM.png" alt="Screenshot 2" width="400"/>
+    <img src="public/images/Screenshot 2025-09-07 at 4.00.24 PM.png" alt="Screenshot 3" width="400"/>
+    <img src="public/images/Screenshot 2025-09-07 at 4.01.13 PM.png" alt="Screenshot 4" width="400"/>
+    <img src="public/images/Screenshot 2025-09-07 at 4.01.34 PM.png" alt="Screenshot 5" width="400"/>
+    <img src="public/images/Screenshot 2025-09-07 at 4.05.08 PM.png" alt="Screenshot 6" width="400"/>
+  </p>
 
 ---
 
