@@ -1,3 +1,4 @@
+
 # ReviewAI
 
 An AI-powered platform for collecting, analyzing, and understanding customer feedback. Built with a React frontend, Node.js/Express backend, and Python microservice for AI review analysis using OpenAI.
@@ -22,6 +23,7 @@ An AI-powered platform for collecting, analyzing, and understanding customer fee
 ---
 
 ## Project Structure
+
 ```
 Sentiment_App/
 ├── ai_review_backend/      # Node.js/Express backend
@@ -39,6 +41,18 @@ Sentiment_App/
 │   ├── package.json       # Frontend dependencies
 │   └── README.md          # This file
 ```
+
+---
+
+## Live Demo
+[https://priyanshu8346.github.io/reviews_app_frontend/](https://priyanshu8346.github.io/reviews_app_frontend/)
+
+---
+
+## Related Repositories
+- **AI Service:** [https://github.com/priyanshu8346/ai_services_reviewAI](https://github.com/priyanshu8346/ai_services_reviewAI)
+- **Backend:** [https://github.com/priyanshu8346/Reviews_app](https://github.com/priyanshu8346/Reviews_app)
+- **Frontend:** [https://github.com/priyanshu8346/reviews_app_frontend](https://github.com/priyanshu8346/reviews_app_frontend)
 
 ---
 
